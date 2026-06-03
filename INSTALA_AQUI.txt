@@ -1,0 +1,164 @@
+📦 ERP V3.0 - GUÍA DE INICIO RÁPIDO
+════════════════════════════════════════════════════════════════
+
+TU PROYECTO ESTÁ EN: C:\ERP-V3
+
+════════════════════════════════════════════════════════════════
+PASO 1: VERIFICAR REQUISITOS
+════════════════════════════════════════════════════════════════
+
+Necesitas tener instalados:
+
+1. Node.js 20+ (descarga de https://nodejs.org/)
+2. Docker Desktop (descarga de https://www.docker.com/products/docker-desktop)
+
+Para verificar abre PowerShell y escribe:
+
+    node --version
+    npm --version
+    docker --version
+
+Si alguno falta, descárgalo e instálalo.
+
+════════════════════════════════════════════════════════════════
+PASO 2: INSTALACIÓN AUTOMÁTICA (RECOMENDADO)
+════════════════════════════════════════════════════════════════
+
+1. Abre PowerShell
+2. Escribe:
+
+    cd C:\ERP-V3
+    .\INSTALAR_TODO.bat
+
+3. Presiona ENTER
+4. El script hará todo automáticamente:
+   - Crea archivos de configuración
+   - Instala dependencias backend
+   - Instala dependencias frontend
+   - Levanta Docker Compose
+
+¡Eso es! Espera a que termine (toma 10-15 minutos)
+
+════════════════════════════════════════════════════════════════
+PASO 3: INICIAR SERVICIOS
+════════════════════════════════════════════════════════════════
+
+Abre TRES terminales PowerShell nuevas:
+
+TERMINAL 1 - Backend:
+    cd C:\ERP-V3
+    npm run dev
+
+    Deberías ver:
+    "🚀 Server running on http://localhost:3000"
+
+TERMINAL 2 - Frontend:
+    cd C:\ERP-V3\frontend
+    npm run dev
+
+    Deberías ver:
+    "VITE v... ready in ... ms"
+    "Local: http://localhost:5173/"
+
+TERMINAL 3 - Navegador:
+    http://localhost:5173
+
+════════════════════════════════════════════════════════════════
+PASO 4: LOGIN
+════════════════════════════════════════════════════════════════
+
+Email: admin@erp.local
+Contraseña: Admin123!
+
+¡Listo! Ya tienes acceso a tu ERP V3.0 completo.
+
+════════════════════════════════════════════════════════════════
+COMANDOS ÚTILES
+════════════════════════════════════════════════════════════════
+
+Ver estado de servicios:
+    docker-compose ps
+
+Ver logs en tiempo real:
+    docker-compose logs -f
+
+Ver logs de un servicio:
+    docker-compose logs -f backend
+    docker-compose logs -f postgres
+    docker-compose logs -f redis
+
+Ejecutar tests:
+    npm test
+    npm run test:coverage
+
+Bajar servicios:
+    docker-compose down
+
+Bajar servicios y limpiar:
+    docker-compose down -v
+
+════════════════════════════════════════════════════════════════
+ACCESOS PRINCIPALES
+════════════════════════════════════════════════════════════════
+
+Frontend:        http://localhost:5173
+Backend API:     http://localhost:3000/api
+Health Check:    http://localhost:3000/api/health
+PostgreSQL:      localhost:5432
+Redis:           localhost:6379
+
+════════════════════════════════════════════════════════════════
+¿ALGO NO FUNCIONA?
+════════════════════════════════════════════════════════════════
+
+Lee el archivo:
+    DESCARGAR_E_INSTALAR.md
+
+Tiene soluciones para:
+- "npm: El término no se reconoce"
+- "Docker not found"
+- "Puerto 3000 en uso"
+- "Error en npm install"
+- Y más...
+
+════════════════════════════════════════════════════════════════
+📚 DOCUMENTACIÓN EN C:\ERP-V3
+════════════════════════════════════════════════════════════════
+
+START_HERE.txt              ← Este archivo
+INSTALAR_TODO.bat           ← Script automático
+DESCARGAR_E_INSTALAR.md     ← Guía paso a paso
+SETUP_RAPIDO.md             ← Resumen rápido
+README.md                   ← Documentación general
+PROJECT_COMPLETE.md         ← Resumen del proyecto
+TEST_PLAN.md                ← Plan de pruebas
+docker-compose.yml          ← Configuración de servicios
+
+════════════════════════════════════════════════════════════════
+🎯 TU APLICACIÓN INCLUYE
+════════════════════════════════════════════════════════════════
+
+✓ 40+ APIs REST funcionales
+✓ 8 páginas Frontend completas
+✓ Chat en tiempo real
+✓ Kanban con drag-drop
+✓ Pagos con Stripe integrados
+✓ Notificaciones push
+✓ PostgreSQL + Redis
+✓ Autenticación JWT
+✓ RBAC con 4 roles
+✓ 60+ tests automatizados
+✓ CI/CD con GitHub Actions
+✓ Monitoreo en tiempo real
+✓ Documentación profesional
+
+════════════════════════════════════════════════════════════════
+
+¡AHORA: Abre PowerShell y ejecuta el script de instalación!
+
+    cd C:\ERP-V3
+    .\INSTALAR_TODO.bat
+
+¡Disfruta tu ERP V3.0! 🚀
+
+════════════════════════════════════════════════════════════════

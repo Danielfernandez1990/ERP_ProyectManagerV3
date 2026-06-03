@@ -1,0 +1,117 @@
+# 🎉 ERP V3.0 - ¡LISTO PARA INSTALAR!
+
+## 📍 UBICACIÓN
+
+**Tu proyecto está en:** `C:\ERP-V3`
+
+---
+
+## ⚡ INSTALACIÓN EN 1 PASO
+
+### Opción 1: Automático (RECOMENDADO)
+
+1. **Abre PowerShell o CMD**
+2. **Escribe:**
+   ```
+   cd C:\ERP-V3
+   .\INSTALAR_TODO.bat
+   ```
+3. **Presiona ENTER**
+4. **¡Listo! Espera a que termine (10 minutos)**
+
+### Opción 2: Manual
+
+Si prefieres hacerlo paso a paso, sigue el archivo `DESCARGAR_E_INSTALAR.md`
+
+---
+
+## 🌐 Después de Instalar
+
+### Terminal 1 - Backend
+```powershell
+cd C:\ERP-V3
+npm run dev
+```
+
+### Terminal 2 - Frontend
+```powershell
+cd C:\ERP-V3\frontend
+npm run dev
+```
+
+### Terminal 3 - Navegador
+```
+http://localhost:5173
+
+Email: admin@erp.local
+Contraseña: Admin123!
+```
+
+---
+
+## 📚 Documentación
+
+```
+C:\ERP-V3\
+├── INSTALAR_TODO.bat         ← Ejecuta esto primero
+├── DESCARGAR_E_INSTALAR.md   ← Instalación manual paso a paso
+├── SETUP_RAPIDO.md            ← Resumen rápido
+├── README.md                  ← Documentación general
+├── PROJECT_COMPLETE.md        ← Resumen del proyecto
+├── docker-compose.yml         ← Servicios (PostgreSQL, Redis)
+└── src/                       ← Código backend
+└── frontend/                  ← Código frontend
+```
+
+---
+
+## ✅ Checklist
+
+```
+☑ Node.js 20+ instalado
+☑ Docker Desktop instalado y corriendo
+☑ INSTALAR_TODO.bat ejecutado
+☑ Servicios levantados
+☑ Backend corriendo (npm run dev)
+☑ Frontend corriendo (npm run dev)
+☑ Navegador abierto en http://localhost:5173
+☑ Login exitoso
+```
+
+---
+
+## 🆘 Si algo falla
+
+1. **Lee el archivo `DESCARGAR_E_INSTALAR.md`** (tiene troubleshooting)
+2. **Revisa los logs:**
+   ```powershell
+   docker-compose logs -f
+   ```
+3. **Reinicia todo:**
+   ```powershell
+   docker-compose down
+   docker-compose up -d
+   ```
+
+---
+
+## 🎯 ¿QUÉ TIENES?
+
+✅ 40+ APIs REST  
+✅ 8 páginas Frontend  
+✅ Chat en tiempo real  
+✅ Kanban drag-drop  
+✅ Pagos con Stripe  
+✅ PostgreSQL + Redis  
+✅ 60+ tests automatizados  
+✅ CI/CD con GitHub Actions  
+✅ Documentación completa  
+
+---
+
+**¡AHORA: Abre PowerShell y ejecuta `INSTALAR_TODO.bat`!** 🚀
+
+```powershell
+cd C:\ERP-V3
+.\INSTALAR_TODO.bat
+```
