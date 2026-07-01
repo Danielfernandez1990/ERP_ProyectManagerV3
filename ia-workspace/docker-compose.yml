@@ -1,0 +1,23 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  interpreter:
+    image: python:3.11
+    container_name: interpreter
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    volumes:
+      - ./workspace:/workspace
+    command: bash -c "pip install open-interpreter && export OPENAI_API_KEY=dummy && export OPENAI_BASE_URL=http://host.docker.internal:11434/v1 && interpreter -y --model ollama/llama3"
+    depends_on:
+      - ollama
+
+volumes:
+  ollama_data:

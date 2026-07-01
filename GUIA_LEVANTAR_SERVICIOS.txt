@@ -1,0 +1,210 @@
+🚀 GUIA DEFINITIVA - LEVANTAR SERVICIOS EN ORDEN CORRECTO
+════════════════════════════════════════════════════════════════
+
+📍 UBICACION: C:\ERP-V3
+
+════════════════════════════════════════════════════════════════
+PASO 0: VALIDACION INICIAL
+════════════════════════════════════════════════════════════════
+
+Ejecuta PRIMERO el script de validación:
+
+   cd C:\ERP-V3
+   .\VALIDAR_Y_SINCRONIZAR.ps1
+
+O si prefieres batch:
+
+   cd C:\ERP-V3
+   VALIDAR_Y_SINCRONIZAR.bat
+
+Este script verificará TODAS las dependencias, credenciales y
+configuraciones automáticamente.
+
+════════════════════════════════════════════════════════════════
+PASO 1: LEVANTAR DOCKER (PostgreSQL + Redis)
+════════════════════════════════════════════════════════════════
+
+IMPORTANTE: Esto debe estar PRIMERO y SIEMPRE corriendo
+
+En PowerShell:
+
+   cd C:\ERP-V3
+   docker-compose up -d
+
+Verifica que esta corriendo:
+
+   docker ps
+
+Deberías ver:
+   ✓ erp_postgres  (PORT 5432)
+   ✓ erp_redis     (PORT 6379)
+
+════════════════════════════════════════════════════════════════
+PASO 2: LEVANTAR BACKEND (Node.js + Express)
+════════════════════════════════════════════════════════════════
+
+IMPORTANTE: El backend DEBE estar corriendo ANTES que el frontend
+
+Abre una NUEVA terminal PowerShell y ejecuta:
+
+   cd C:\ERP-V3
+   npm run dev
+
+ESPERA a ver estos logs:
+
+   ✅ Database connected
+   ✅ Redis connected
+   🚀 Server running on http://localhost:3000
+   🔌 WebSocket available at ws://localhost:3000
+
+Si ves algún error AQUI, NO continúes al paso 3.
+
+PRUEBA QUE FUNCIONA:
+
+   En navegador: http://localhost:3000/api/health
+
+Deberías ver JSON:
+{
+  "status": "ok",
+  "timestamp": "2026-05-28T...",
+  "version": "3.0.0"
+}
+
+════════════════════════════════════════════════════════════════
+PASO 3: LEVANTAR FRONTEND (React + Vite)
+════════════════════════════════════════════════════════════════
+
+IMPORTANTE: Solo hace esto si el Backend esta 100% funcionando
+
+Abre OTRA terminal PowerShell NUEVA y ejecuta:
+
+   cd C:\ERP-V3\frontend
+   npm run dev
+
+ESPERA a ver:
+
+   VITE v... ready in ... ms
+   Local:   http://localhost:5173/
+
+════════════════════════════════════════════════════════════════
+PASO 4: ACCEDER A LA APLICACION
+════════════════════════════════════════════════════════════════
+
+Abre tu navegador en:
+
+   http://localhost:5173
+
+Deberías ver la página de Login
+
+════════════════════════════════════════════════════════════════
+PASO 5: LOGIN
+════════════════════════════════════════════════════════════════
+
+Email:      admin@erp.local
+Contraseña: Admin123!
+
+════════════════════════════════════════════════════════════════
+RESUMEN DE PUERTOS
+════════════════════════════════════════════════════════════════
+
+Backend API:    http://localhost:3000
+Frontend:       http://localhost:5173
+PostgreSQL:     localhost:5432
+Redis:          localhost:6379
+
+════════════════════════════════════════════════════════════════
+CREDENCIALES DE BASE DE DATOS
+════════════════════════════════════════════════════════════════
+
+PostgreSQL:
+  Usuario:   erp_user
+  Password:  erp_password_123
+  Database:  erp_v3_db
+  Host:      localhost
+  Port:      5432
+
+Redis:
+  Password:  redis_password_123
+  Port:      6379
+
+════════════════════════════════════════════════════════════════
+SI ALGO FALLA - CHECKLIST
+════════════════════════════════════════════════════════════════
+
+❌ "Database not connected"
+   → Verifica: docker ps (debe tener erp_postgres UP)
+   → Verifica: credenciales en .env
+
+❌ "Redis connection error"
+   → Verifica: docker ps (debe tener erp_redis UP)
+   → Ejecuta: docker-compose restart redis
+
+❌ "ERR_CONNECTION_REFUSED en navegador"
+   → Verifica que Backend este corriendo (Terminal 1)
+   → Verifica puerto 3000: netstat -ano | findstr :3000
+   → Actualiza navegador: Ctrl+Shift+R (limpiar cache)
+
+❌ "Cannot find module"
+   → Ejecuta en backend: npm install
+   → Ejecuta en frontend: cd frontend && npm install
+
+❌ "Port already in use"
+   → Encuentra el proceso: netstat -ano | findstr :3000
+   → Mata el proceso: taskkill /PID [numero] /F
+
+════════════════════════════════════════════════════════════════
+ORDEN VISUAL
+════════════════════════════════════════════════════════════════
+
+[Terminal Principal]
+   $ docker-compose up -d
+   ✓ PostgreSQL levantado
+   ✓ Redis levantado
+
+[Terminal 1 - Backend]
+   $ npm run dev
+   ✓ Database connected
+   ✓ Redis connected
+   ✓ Server running on port 3000
+
+[Terminal 2 - Frontend]
+   $ npm run dev
+   ✓ VITE ready
+   ✓ Server on port 5173
+
+[Navegador]
+   http://localhost:5173
+   ✓ Login page loaded
+   ✓ Ready to login
+
+════════════════════════════════════════════════════════════════
+COMANDOS UTILES
+════════════════════════════════════════════════════════════════
+
+Ver estado Docker:
+   docker ps
+
+Ver logs backend:
+   docker-compose logs postgres
+   docker-compose logs redis
+
+Reiniciar Docker:
+   docker-compose down -v
+   docker-compose up -d
+
+Limpiar node_modules:
+   rm -r node_modules
+   rm package-lock.json
+   npm install
+
+Reinstalar todo:
+   docker-compose down -v
+   rm -r node_modules frontend/node_modules
+   rm package-lock.json frontend/package-lock.json
+   docker-compose up -d
+   npm install
+   cd frontend && npm install
+
+════════════════════════════════════════════════════════════════
+
+¡LISTO! Sigue los pasos en orden y funcionará 100% 🚀
