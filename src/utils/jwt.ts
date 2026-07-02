@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { config } from '../config/env';
 
 export interface JWTPayload {
@@ -9,23 +9,25 @@ export interface JWTPayload {
 }
 
 export const generateToken = (payload: JWTPayload): string => {
-  return jwt.sign(payload, config.jwt.secret, {
-    expiresIn: config.jwt.expire,
+  const options: SignOptions = {
+    expiresIn: config.jwt.expire as SignOptions['expiresIn'],
     algorithm: 'HS256',
-  });
+  };
+  return jwt.sign(payload, config.jwt.secret, options);
 };
 
 export const generateRefreshToken = (payload: JWTPayload): string => {
-  return jwt.sign(payload, config.jwt.refreshSecret, {
-    expiresIn: config.jwt.refreshExpire,
+  const options: SignOptions = {
+    expiresIn: config.jwt.refreshExpire as SignOptions['expiresIn'],
     algorithm: 'HS256',
-  });
+  };
+  return jwt.sign(payload, config.jwt.refreshSecret, options);
 };
 
 export const verifyToken = (token: string): JWTPayload => {
   try {
     return jwt.verify(token, config.jwt.secret) as JWTPayload;
-  } catch (error) {
+  } catch {
     throw new Error('Invalid or expired token');
   }
 };
@@ -33,7 +35,7 @@ export const verifyToken = (token: string): JWTPayload => {
 export const verifyRefreshToken = (token: string): JWTPayload => {
   try {
     return jwt.verify(token, config.jwt.refreshSecret) as JWTPayload;
-  } catch (error) {
+  } catch {
     throw new Error('Invalid or expired refresh token');
   }
 };

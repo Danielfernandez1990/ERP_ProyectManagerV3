@@ -1,8 +1,9 @@
-import io from 'socket.io-client';
+// socket.ts - WebSocket client
+import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const SOCKET_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000';
 
-let socket: ReturnType<typeof io> | null = null;
+let socket: Socket | null = null;
 
 export const initSocket = () => {
   socket = io(SOCKET_URL, {
@@ -12,21 +13,14 @@ export const initSocket = () => {
     reconnectionAttempts: 5,
   });
 
-  socket.on('connect', () => {
-    console.log('Socket connected:', socket?.id);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Socket disconnected');
-  });
+  socket.on('connect', () => console.log('Socket connected:', socket?.id));
+  socket.on('disconnect', () => console.log('Socket disconnected'));
 
   return socket;
 };
 
-export const getSocket = () => {
-  if (!socket) {
-    initSocket();
-  }
+export const getSocket = (): Socket | null => {
+  if (!socket) initSocket();
   return socket;
 };
 

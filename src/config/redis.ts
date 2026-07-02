@@ -5,9 +5,7 @@ import winston from 'winston';
 const logger = winston.createLogger({
   level: config.logging.level,
   format: winston.format.json(),
-  transports: [
-    new winston.transports.Console(),
-  ],
+  transports: [new winston.transports.Console()],
 });
 
 let redisClient: RedisClientType | null = null;
@@ -20,14 +18,13 @@ export const initRedis = async (): Promise<RedisClientType> => {
         port: config.redis.port,
       },
       password: config.redis.password || undefined,
-      db: config.redis.db || 0,
+      database: config.redis.db || 0,
     }) as RedisClientType;
 
     redisClient.on('error', (err) => logger.error('Redis error:', err));
     redisClient.on('connect', () => logger.info('✅ Redis connected'));
 
     await redisClient.connect();
-
     return redisClient;
   } catch (error) {
     logger.error('❌ Redis connection error:', error);
@@ -36,9 +33,7 @@ export const initRedis = async (): Promise<RedisClientType> => {
 };
 
 export const getRedis = (): RedisClientType => {
-  if (!redisClient) {
-    throw new Error('Redis not initialized. Call initRedis first.');
-  }
+  if (!redisClient) throw new Error('Redis not initialized. Call initRedis first.');
   return redisClient;
 };
 

@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -20,99 +20,30 @@ import { ChatPage } from './pages/ChatPage';
 import { KanbanPage } from './pages/KanbanPage';
 import { SettingsPage } from './pages/SettingsPage';
 
-// Initialize services
 initApiClient();
 initSocket();
-initTheme();  // Inicializar tema personalizado
+initTheme();
 
 const App = () => (
   <Router>
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/usuarios"
-        element={
-          <ProtectedRoute>
-            <UsuariosPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/clientes"
-        element={
-          <ProtectedRoute>
-            <ClientesPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/productos"
-        element={
-          <ProtectedRoute>
-            <ProductosPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/proyectos"
-        element={
-          <ProtectedRoute>
-            <ProyectosPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/chat"
-        element={
-          <ProtectedRoute>
-            <ChatPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/kanban"
-        element={
-          <ProtectedRoute>
-            <KanbanPage />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/settings"
-        element={
-          <ProtectedRoute>
-            <SettingsPage />
-          </ProtectedRoute>
-        }
-      />
-
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+      <Route path="/usuarios" element={<ProtectedRoute><UsuariosPage /></ProtectedRoute>} />
+      <Route path="/clientes" element={<ProtectedRoute><ClientesPage /></ProtectedRoute>} />
+      <Route path="/productos" element={<ProtectedRoute><ProductosPage /></ProtectedRoute>} />
+      <Route path="/proyectos" element={<ProtectedRoute><ProyectosPage /></ProtectedRoute>} />
+      <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+      <Route path="/kanban" element={<ProtectedRoute><KanbanPage /></ProtectedRoute>} />
+      <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
       <Route path="/" element={<Navigate to="/dashboard" replace />} />
     </Routes>
-
     <ToastContainer
       position="bottom-right"
       autoClose={3000}
       hideProgressBar={false}
-      newestOnTop={true}
+      newestOnTop
       closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
       draggable
       pauseOnHover
     />

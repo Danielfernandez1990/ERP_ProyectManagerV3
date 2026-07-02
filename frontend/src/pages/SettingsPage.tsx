@@ -4,21 +4,6 @@ import { PersonalizacionTab } from './settings-components/PersonalizacionTab';
 import { SMTPTab } from './settings-components/SMTPTab';
 import { getThemeConfig, type ThemeConfig } from '../services/themeService';
 
-/**
- * SettingsPage - Página Principal de Configuración
- * 
- * Esta página orquesta los diferentes tabs de configuración.
- * Cada tab es un componente AISLADO que no interfiere con otros.
- * 
- * Tabs disponibles:
- * - 📋 Empresa
- * - 👤 Admins
- * - 📧 SMTP (COMPONENTE AISLADO)
- * - 🔑 Licencias
- * - 🎨 Personalización (COMPONENTE AISLADO)
- * - 📊 Auditoría
- */
-
 export const SettingsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('personalizacion');
   const [personalizacion, setPersonalizacion] = useState<ThemeConfig | null>(null);
@@ -27,19 +12,17 @@ export const SettingsPage: React.FC = () => {
   useEffect(() => {
     try {
       const config = getThemeConfig();
-      console.log('✅ Tema cargado:', config);
       setPersonalizacion(config);
     } catch (error) {
-      console.error('❌ Error cargando tema:', error);
-      // Usar configuración por defecto
-      const defaultConfig: ThemeConfig = {
+      console.error('Error cargando tema:', error);
+      setPersonalizacion({
         tema: 'claro',
         colorPrimario: '#2563eb',
         colorSecundario: '#1e40af',
+        colorMenu: '#1e3a8a',
         nombre_sistema: 'ERP V3.0',
         fuente: 'inter',
-      };
-      setPersonalizacion(defaultConfig);
+      });
     } finally {
       setLoading(false);
     }
@@ -49,30 +32,29 @@ export const SettingsPage: React.FC = () => {
     return (
       <Layout>
         <div className="p-6">
-          <p className="text-gray-500">Cargando configuración...</p>
+          <p className="text-gray-500">Cargando...</p>
         </div>
       </Layout>
     );
   }
 
+  const tabs = [
+    { id: 'empresa',        label: '📋 Empresa' },
+    { id: 'admin',          label: '👤 Admins' },
+    { id: 'smtp',           label: '📧 SMTP' },
+    { id: 'licencia',       label: '🔑 Licencias' },
+    { id: 'personalizacion',label: '🎨 Personalización' },
+    { id: 'audit',          label: '📊 Auditoría' },
+  ];
+
   return (
     <Layout>
       <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Configuración</h1>
-        </div>
+        <h1 className="text-3xl font-bold text-gray-900">Configuración</h1>
 
-        {/* Tabs Navigation */}
+        {/* Tabs */}
         <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
-          {[
-            { id: 'empresa', label: '📋 Empresa' },
-            { id: 'admin', label: '👤 Admins' },
-            { id: 'smtp', label: '📧 SMTP' },
-            { id: 'licencia', label: '🔑 Licencias' },
-            { id: 'personalizacion', label: '🎨 Personalización' },
-            { id: 'audit', label: '📊 Auditoría' },
-          ].map((tab) => (
+          {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -87,50 +69,17 @@ export const SettingsPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Content - Personalización */}
         {activeTab === 'personalizacion' && personalizacion && (
           <PersonalizacionTab initialTheme={personalizacion} />
         )}
+        {activeTab === 'smtp' && <SMTPTab />}
 
-        {/* Content - SMTP */}
-        {activeTab === 'smtp' && (
-          <SMTPTab />
-        )}
-
-        {/* Content - Otros tabs (Placeholders) */}
-        {activeTab === 'empresa' && (
+        {['empresa', 'admin', 'licencia', 'audit'].includes(activeTab) && (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-6">Configuración de Empresa</h2>
-            <div className="text-center py-12 text-gray-500">
-              Próximamente...
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'admin' && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-6">Super Admins</h2>
-            <div className="text-center py-12 text-gray-500">
-              Próximamente...
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'licencia' && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-6">Licencias</h2>
-            <div className="text-center py-12 text-gray-500">
-              Próximamente...
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'audit' && (
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-xl font-semibold mb-6">Auditoría</h2>
-            <div className="text-center py-12 text-gray-500">
-              Próximamente...
-            </div>
+            <h2 className="text-xl font-semibold mb-6">
+              {tabs.find(t => t.id === activeTab)?.label}
+            </h2>
+            <div className="text-center py-12 text-gray-500">Próximamente...</div>
           </div>
         )}
       </div>

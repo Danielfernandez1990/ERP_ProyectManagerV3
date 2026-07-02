@@ -14,28 +14,19 @@ interface Message {
 
 export const ChatPage: React.FC = () => {
   const { user } = useAuthStore();
-  const [projectId, setProjectId] = useState(1);
+  const projectId = 1;
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     joinProjectRoom(projectId);
-
-    const handleNewMessage = (data: any) => {
+    onNewMessage((data: any) => {
       setMessages((prev) => [...prev, data]);
-    };
+    });
+  }, []);
 
-    onNewMessage(handleNewMessage);
-
-    return () => {
-      // Cleanup listeners
-    };
-  }, [projectId]);
-
-  const handleSendMessage = () => {
+  const handleSend = () => {
     if (!newMessage.trim() || !user) return;
-
     sendMessage(projectId, newMessage, user.id);
     setMessages((prev) => [
       ...prev,
@@ -54,10 +45,8 @@ export const ChatPage: React.FC = () => {
     <Layout>
       <div className="p-6 space-y-6">
         <h1 className="text-3xl font-bold text-gray-900">Chat en Tiempo Real</h1>
-
         <div className="grid grid-cols-3 gap-6">
-          {/* Chat Messages */}
-          <div className="col-span-2 bg-white rounded-lg shadow p-6 flex flex-col">
+          <div className="col-span-2 bg-white rounded-lg shadow p-6 flex flex-col h-[500px]">
             <div className="flex-1 overflow-y-auto mb-4 space-y-4">
               {messages.map((msg) => (
                 <div
@@ -82,28 +71,24 @@ export const ChatPage: React.FC = () => {
                 </div>
               ))}
             </div>
-
-            {/* Input */}
             <div className="flex gap-2">
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Escribe un mensaje..."
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
               <button
-                onClick={handleSendMessage}
-                disabled={loading}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 flex items-center gap-2"
+                onClick={handleSend}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
               >
                 <Send size={18} />
               </button>
             </div>
           </div>
 
-          {/* Sidebar Info */}
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-semibold mb-4">Información</h3>
             <div className="space-y-4">
